@@ -1,0 +1,48 @@
+kits:
+  Archer:
+   description: 'Get an early advantage over your foes with a set of a bow and arrows.'
+   items:
+     BOW: 1
+     ARROW: 24
+     
+  Demolitionist:
+    description: 'Make use of explosives to destroy your opponents.'
+    items:
+      TNT: 16
+      FLINT_AND_STEEL: 1
+      
+  Lumberjack:
+    description: 'With this kit, you won''t have to waste much time gathering wood.'
+    items:
+      IRON_AXE: 1
+      
+  Cultivist:
+    description: 'As a cultivist, you will be able to easily provide food for you and your team.'
+  Knight:
+    description: 'If you find a horse, your saddle will allow you to become faster than anyone else.'
+    items:
+      SADDLE:
+        amount: 1
+        
+  Alchemist:
+    description: 'Use your brewing stand to create powerful potions.'
+    items:
+      BREWING_STAND_ITEM:
+        amount: 1
+        
+  Enchanter:
+    description: 'Don''t waste diamonds on a pickaxe: This kit helps you get an enchanting table faster.'
+    items:
+      ENCHANTMENT_TABLE:
+        amount: 1
+        
+  Fisherman:
+    description: 'Make use of your surroundings and fill your stomach with fish.'
+    items:
+      FISHING_ROD: 1
+      
+  Spy:
+    description: 'Your compass gives you more information about your foes.'
+      
+  Berserker:
+    description: 'Killing mobs and players gives you extra strength.'

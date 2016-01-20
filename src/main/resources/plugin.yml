@@ -1,0 +1,11 @@
+name: OpenArena
+main: io.github.mhoffmann98.openarena.OpenArena
+version: 0.0.1-SNAPSHOT
+
+commands:
+  oa:
+    description: OpenArena
+    usage: /<command> <params>
+  back:
+    description: Back to normal world
+    usage: /<command>
