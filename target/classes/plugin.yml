@@ -6,6 +6,3 @@ commands:
   oa:
     description: OpenArena
     usage: /<command> <params>
-  back:
-    description: Back to normal world
-    usage: /<command>

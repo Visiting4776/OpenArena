@@ -1,51 +1,48 @@
 package io.github.mhoffmann98.openarena;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
-public final class OACommandExecutor implements CommandExecutor {
-	private final OpenArena plugin;
+public class OACommandExecutor implements CommandExecutor {
+    private final OpenArena plugin;
+    private Player player;
 
-	public OACommandExecutor(OpenArena plugin) {
-		this.plugin = plugin; // Store the plugin in situations where you need
-								// it.
+    public OACommandExecutor(OpenArena plugin) {
+	this.plugin = plugin; // Store the plugin in situations where you need
+			      // it.
+    }
+
+    public boolean onCommand(CommandSender sender, Command cmd, String label,
+	    String[] args) {
+
+	if (!cmd.getName().equalsIgnoreCase("oa") || args.length < 1)
+	    return false;
+
+	switch (args[0]) {
+	case "join":
+	    player = (Player) sender;
+	    if (!plugin.getCurrentArenaGame().addPlayer(player))
+		player.sendMessage(ChatColor.RED
+			+ "You have already joined the game!");
+
+	    break;
+
+	case "leave":
+	    player = (Player) sender;
+	    if (!plugin.getCurrentArenaGame().removePlayer(player))
+		player.sendMessage(ChatColor.RED + "You are not in this game!");
+
+	    break;
+
+	default:
+	    sender.sendMessage(ChatColor.RED + "Unknown Command!");
+	    break;
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("oa")) {
-			if (args.length < 1)
-				return false;
-			switch (args[0]) {
-			case "join":
-				Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " is now ready.");
+	return true;
+    }
 
-				Bukkit.broadcastMessage(ChatColor.YELLOW + "Generating new world...");
-				plugin.getArenaGame().generateWorld(500);
-
-				Player p = (Player) sender;
-				plugin.getArenaGame().addPlayer(new ArenaPlayer(p));
-				break;
-
-			default:
-				sender.sendMessage(ChatColor.RED + "Unknown Command!");
-			}
-
-			return true;
-		} else if (cmd.getName().equalsIgnoreCase("back")) {
-			Player p = (Player) sender;
-			p.sendMessage("Teleporting back...");
-			Location loc = new Location(Bukkit.getWorld("world"), 0, 100, 0);
-			p.teleport(loc);
-
-			return true;
-		}
-		return false;
-	}
 }

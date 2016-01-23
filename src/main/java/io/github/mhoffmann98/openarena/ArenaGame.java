@@ -1,76 +1,48 @@
 package io.github.mhoffmann98.openarena;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public final class ArenaGame {
-	private ArrayList<ArenaPlayer> players = new ArrayList<>();
-	private ArenaWorld world;
-	private boolean gameActive;
-	
-	public ArenaGame(){
-		this.world = new ArenaWorld();
-		gameActive = false;
-	}
+public class ArenaGame {
+    private HashMap<Player, ArenaPlayer> players;
+    private World world;
+    private String worldName;
+    private Location worldSpawn;
+    private int mapSize;
+    private boolean isActive;
 
-	public void start(){
-		Bukkit.broadcastMessage(ChatColor.YELLOW + "called: ArenaGame.start()");
-		world.setPlayerNumbers(players.size());
-		for(int i=0; i<players.size(); i++){
-			ArenaPlayer player = players.get(i);
-			
-			player.reset();
-			player.giveKitItems();
-			player.getPlayer().teleport(world.generateSpawn(i));
-			
-			Bukkit.broadcastMessage(ChatColor.YELLOW + "Teleported player to spawn");
-		}
-		
-		Bukkit.getWorld(world.getWorldName()).getWorldBorder().setSize(world.getMapSize()*2);
-		gameActive = true;
-	}
-	
-	public void stop(){
-		gameActive = false;
-	}
-	
-	public void addPlayer(ArenaPlayer player){
-		Bukkit.broadcastMessage(ChatColor.YELLOW + "Added player to ArenaGame");
-		this.players.add(player);
-		Bukkit.broadcastMessage(player.getPlayer().getName() + " is equipped");
-		player.equipTools();
-		player.getPlayer().teleport(world.getMapSpawn());
-	}
-	
-	public String generateWorld(int mapSize) {
-		return world.generate(mapSize);
-	}
-	
-	public boolean isGameActive() {
-		return gameActive;
-	}
+    public ArenaGame() {
+	worldName = generateWorld();
+	players = new HashMap<Player, ArenaPlayer>();
+    }
 
-	public ArrayList<ArenaPlayer> getPlayers() {
-		return players;
-	}
-	
-	public ArenaPlayer getArenaPlayer(Player player){
-		for(ArenaPlayer p : players){
-			if(p.getPlayer().equals(player))
-				return p;
-		}
-		return null;
-	}
-	
-	public boolean playerInArena(Player player){
-		for(ArenaPlayer p : players){
-			if(p.getPlayer().equals(player))
-				return true;
-		}
-		return false;
-	}
+    // Creates a new temporary world and returns the name.
+    private String generateWorld() {
+	return null;
+    }
+
+    // adds an ArenaPlayer object to the players HashMap. Returns true if a new element was added, otherwise false.
+    public boolean addPlayer(Player bukkitPlayer) {
+	if (players.containsKey(bukkitPlayer)) // Player is already in the game!
+	    return false;
+	players.put(bukkitPlayer, new ArenaPlayer(bukkitPlayer));
+	Bukkit.broadcastMessage(ChatColor.YELLOW
+		+ "A new player was added to the ArenaGame.");
+	return true;
+    }
+
+    // removes an ArenaPlayer object from the players HashMap. Returns true if an element was removed, otherwise false.
+    public boolean removePlayer(Player bukkitPlayer) {
+	if (!players.containsKey(bukkitPlayer)) // No such player in the game!
+	    return false;
+	players.remove(bukkitPlayer);
+	Bukkit.broadcastMessage(ChatColor.YELLOW
+		+ "A player has left the ArenaGame.");
+	return true;
+    }
 }
